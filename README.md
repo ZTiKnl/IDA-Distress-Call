@@ -2,7 +2,7 @@
 Send a Distress Call to Discord Channel when under attack
 
 ## Version  
-Version 0.10  
+Version 0.11  
 
 ## What it does:  
 Whenever a user is interdicted, an event is created in the ED journal file.  
