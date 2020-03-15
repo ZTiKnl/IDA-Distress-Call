@@ -37,7 +37,7 @@ def plugin_prefs(parent, cmdr, is_beta):
 
     frame = nb.Frame(parent)
 
-    plugin_label = nb.Label(frame, text="IDA Distress Call plugin v0.20")
+    plugin_label = nb.Label(frame, text="IDA Distress Call plugin v0.21")
     plugin_label.grid(padx=10, row=0, column=0, sticky=tk.W)
 
     HyperlinkLabel(frame, text='Visit website', background=nb.Label().cget('background'), url='https://github.com/ZTiKnl/IDA-Distress-Call', underline=True).grid(padx=10, row=0, column=1, sticky=tk.W)
@@ -68,7 +68,7 @@ def plugin_app(parent):
     Create a pair of TK widgets for the EDMC main window
     """
     label = tk.Label(parent, text="IDA DC:")
-    this.status = tk.Label(parent, text="Idle")
+    this.status = tk.Label(parent, text="Idle", anchor="w")
 
     return (label, this.status)
 
@@ -86,6 +86,16 @@ def journal_entry(cmdr, is_beta, system, station, entry, state):
 
                 entry['key'] = this.DCapikey.get()
                 entry['CMDR'] = cmdr
+                
+                def set_default(obj):
+                    if isinstance(obj, set):
+                        return list(obj)
+                    raise TypeError
+
+                loaded_r = json.dumps(state, default=set_default)
+
+                entry['teststate'] = loaded_r
+                entry['testsystem'] = system
 
                 this.status['text'] = "Sending Distress Call"
                 url = "http://distresscall.ztik.nl/api"
